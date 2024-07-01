@@ -184,6 +184,7 @@ Inicialização e configuração do sistema (Initialization and configuration of
 */
 int setLocation();					  // Defina locação ( Set Location)
 void initSystem(SystemData *sysData); // Inicialize o sistema (Initialize System)
+void firstTimeSetup(SystemData *sysData);// Configura o sistema para primeira vez (Configure the System for the first time)
 
 
 

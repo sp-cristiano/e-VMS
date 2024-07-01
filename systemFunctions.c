@@ -63,6 +63,43 @@ void initSystem(SystemData *sysData)
 	sysData->histories = NULL;
 	sysData->historyCount = 0;
 	sysData->historyCapacity = 0;
+
+	firstTimeSetup(sysData);
+}
+
+/**
+ * ****************************************************************************************
+ * Este função configura o sistema para o primeiro vez. Ele cria o arquivo de configuração (Configure the system for the first time. It creates the configuration file)
+ */
+void firstTimeSetup(SystemData *sysData)
+{
+	// Inicialização de arquivos (Initialization of files)
+	FILE *statusFile = NULL;
+	FILE *languageFile = NULL;
+	FILE *appFile = NULL;
+	FILE *userFile = NULL;
+	FILE *adminFile = NULL;
+	FILE *historyFile = NULL;
+
+	// Leitura de arquivos (Opening files)
+	statusFile = fopen("status.txt", "r");
+	languageFile = fopen("language.txt", "r");
+	appFile = fopen("app.txt", "r");
+	userFile = fopen("user.txt", "r");
+	adminFile = fopen("admin.txt", "r");
+	historyFile = fopen("history.txt", "r");
+
+	if (statusFile == NULL || languageFile == NULL || appFile == NULL || userFile == NULL || adminFile == NULL || historyFile == NULL)
+	{
+	
+		// Criação de arquivos (Creation of files)
+		statusFile = fopen("status.txt", "w");
+		languageFile = fopen("language.txt", "w");
+		appFile = fopen("app.txt", "w");
+		userFile = fopen("user.txt", "w");
+		adminFile = fopen("admin.txt", "w");
+		historyFile = fopen("history.txt", "w");
+	}
 }
 
 /**
@@ -133,23 +170,23 @@ void displayBanner(SystemData *sysData)
 				int foundLanguage = sysData->languages[j].id;
 				if (foundLanguage == ENGLISH_LANGUAGE_ID)
 				{
-
 					printf("\t\t\t\t\t\t\t\t\t\tVersion: %.2f\n", sysData->apps[i].version);
 					for (int k = 0; k < sysData->statusCount; k++)
 					{
 						if (sysData->apps[i].statusCode == sysData->status[k].code)
 						{
-
 							printf("\t\t\t\t\t\t\t\t\t\tStatus: %s\n", sysData->status[k].status);
 							break;
 						}
 					}
 					printf("\t\t\t\t\t\t\t\t\t\tPreferred Language: %s\n", sysData->languages[j].name);
+					printf("\t\t*********************************************************************************************************************\t\t\n");
+
 					if (is_authenticated)
 					{
-						printf("\t\t\t\t\t\t\t\t\t\tUser: %s\n", currentUser_Name);
+						printf("\n\n");
+						printf("\t\t\t\t\t\t\t\t\t\t\t\t\tHello %s,\t\t\t\t\t\t\t\t\n\n", currentUser_Name);
 					}
-					printf("\t\t\t\t\t\t\t\t\t\t\t\t\tHello %s,\t\t\t\t\t\t\t\t\n\n", currentUser_Name);
 				}
 				if (foundLanguage == PORTUGUESE_LANGUAGE_ID)
 				{
@@ -163,7 +200,9 @@ void displayBanner(SystemData *sysData)
 							break;
 						}
 					}
-					printf("\t\t\t\t\t\t\t\t\t\t%s\n", sysData->languages[j].name);
+					printf("\t\t\t\t\t\t\t\t\t\tLíngua preferida: %s\n", sysData->languages[j].name);
+					printf("\t\t*********************************************************************************************************************\t\t\n");
+
 					if (is_authenticated)
 					{
 						printf("\t\t\t\t\t\t\t\t\t\t\t\t\tOla %s,\t\t\t\t\t\t\t\t\n\n", currentUser_Name);
